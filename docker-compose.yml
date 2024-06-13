@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  database:
+    build: ./database
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: cases123
+      MYSQL_DATABASE: case_studies
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  webapp:
+    build: ./webapp
+    container_name: webapp
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - database
+    volumes:
+      - ./webapp:/app
+
+volumes:
+  db_data:
